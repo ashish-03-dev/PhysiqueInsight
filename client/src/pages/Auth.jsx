@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import LoginForm from "../components/LoginForm"
 import SignupForm from "../components/SignupForm";
+import API from '../utils/api';
 
 const AuthPage = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [serverReady, setServerReady] = useState(false);
-    const url = "http://192.168.0.102:4000";
 
     useEffect(() => {
         const checkServer = async () => {
             try {
-                await fetch(`${url}/api/ping`); // Your backend health check route
+                await API.get('/ping'); // Your backend health check route
                 setServerReady(true);
             } catch (error) {
                 console.error('Server is not ready yet');
