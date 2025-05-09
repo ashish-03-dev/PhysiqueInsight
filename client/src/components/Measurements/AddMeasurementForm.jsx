@@ -29,7 +29,6 @@ export default function AddMeasurementForm({ setShowForm, fetchMeasurements }) {
     armSpan: "",
   });
 
-  const [toast, setToast] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -39,12 +38,37 @@ export default function AddMeasurementForm({ setShowForm, fetchMeasurements }) {
     });
   };
 
+
+  const autoFillForm = () => {
+    setFormData({
+      height: 175,
+      shoulderWidth: 45,
+      chestWidth: 40,
+      chestCircumference: 95,
+      waistCircumference: 80,
+      hipWidth: 38,
+      bicepCircumferenceLeft: 32,
+      bicepCircumferenceRight: 33,
+      forearmCircumferenceLeft: 28,
+      forearmCircumferenceRight: 28,
+      thighCircumferenceLeft: 55,
+      thighCircumferenceRight: 56,
+      calfCircumferenceLeft: 37,
+      calfCircumferenceRight: 36,
+      torsoLength: 60,
+      legLength: 90,
+      armSpan: 180,
+    });
+  };
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await API.post('/measurements', { measurements: formData});;
+      const res = await API.post('/measurements', { measurements: formData });;
       console.log(res.data);
       triggerToast('Measurement Saved!');
 
@@ -68,7 +92,6 @@ export default function AddMeasurementForm({ setShowForm, fetchMeasurements }) {
         legLength: "",
         armSpan: ""
       });
-      window.location.reload();
       fetchMeasurements();
       triggerToast('Measurement Saved!');
     } catch (error) {
@@ -80,11 +103,21 @@ export default function AddMeasurementForm({ setShowForm, fetchMeasurements }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="card p-4 shadow-sm mb-4">
-      <div className="row">
+    <form onSubmit={handleSubmit} className="card p-4 shadow-sm mb-4 position-relative">
+      <button
+        type="button"
+        className="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-3"
+        onClick={autoFillForm}
+      >
+        Auto-Fill Form
+      </button>
+
+      <div className="row mt-4">
         {Object.keys(formData).map((field) => (
           <div className="col-md-6 mb-3" key={field}>
-            <label>{field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())} (cm)</label>
+            <label>
+              {field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())} (cm)
+            </label>
             <input
               type="number"
               className="form-control"

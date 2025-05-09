@@ -3,15 +3,15 @@ import { useEffect, useState } from "react";
 export default function MeasurementTable({measurements, loading}) {
 
   return (
-    <div className="container mt-5" style={{ maxWidth: "1000px" }}>
-      <h2 className="mb-4 text-center">Your Measurement History</h2>
+    <div className="container mt-5">
+      <h2 className="mb-4">Your Measurement History</h2>
 
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : measurements.length === 0 ? (
         <p className="text-center">No measurements saved yet.</p>
       ) : (
-        <div className="table-responsive">
+        <div className="table-responsive" style={{ maxWidth: "1000px" }}>
           <table className="table table-bordered table-hover">
             <thead className="thead-dark">
               <tr>

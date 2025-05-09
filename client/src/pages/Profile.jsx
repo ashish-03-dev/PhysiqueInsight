@@ -77,14 +77,15 @@ const ProfileInfoPage = () => {
 
   if (loading) {
     return (
-      <div className="container py-4 text-center">
-        <h3>Loading Profile...</h3>
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
+      <div className="container py-4">
+        <div className="card p-4 text-center">
+          <p>Loading...</p>
         </div>
       </div>
     );
   }
+  
+  
 
   return (
     <div className="container py-4">

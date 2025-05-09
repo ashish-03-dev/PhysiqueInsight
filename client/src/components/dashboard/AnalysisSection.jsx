@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../utils/api';
+import { Link } from 'react-router-dom';
 
 const AnalysisSection = () => {
   const [analysis, setAnalysis] = useState(null);
@@ -80,7 +81,12 @@ const AnalysisSection = () => {
 
           </>
         ) : (
-          <div className="text-center text-muted">No analysis data available.</div>
+          <div className="d-flex flex-column align-items-center justify-content-center py-5 text-center text-muted">
+            <p className="mb-3">No analysis data available.</p>
+            <Link to={'/home/measurements'}>
+              <button className="btn btn-outline-primary me-2">+ New Measurement</button>
+            </Link>
+          </div>
         )}
       </div>
     </div>

@@ -6,7 +6,7 @@ const MeasurementSummary = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const items = ['chest', 'waist', 'arms' , 'shoulders'];
+  const items = ['chest', 'waist', 'arms', 'shoulders'];
 
   useEffect(() => {
     const fetchMeasurements = async () => {
@@ -19,10 +19,10 @@ const MeasurementSummary = () => {
         setLoading(false);
       }
     };
-  
+
     fetchMeasurements();
   }, []);
-  
+
   const calculateChange = (latest, previous) => {
     if (previous === 0 || previous === undefined || latest === undefined) return null;
     const diff = latest - previous;
@@ -31,36 +31,56 @@ const MeasurementSummary = () => {
     return { percent, isPositive };
   };
 
-  if (loading) return <p>Loading measurement progress...</p>;
-  if (!data || !data.latest) return <p>No recent measurements available.</p>;
-
-
   return (
-
     <div className="mt-5">
       <h5 className="mb-3">Current Status</h5>
       <div className="row g-4">
-        {data &&
-          items.map((item) => {
+        {items.map((item) => {
+          let content;
+
+          if (loading) {
+            content = (
+              <>
+                <h6 className="text-muted text-capitalize">{item}</h6>
+                <h4>Loading...</h4>
+                <small className="text-muted">Please wait</small>
+              </>
+            );
+          } else if (!data || !data.latest || data.latest[item] == null) {
+            content = (
+              <>
+                <h6 className="text-muted text-capitalize">{item}</h6>
+                <h5 className="text-muted">No data available</h5>
+              </>
+            );
+          } else {
             const latest = data.latest[item];
             const prev = data.oneMonthAgo?.[item];
             const change = calculateChange(latest, prev);
-            return (
-              <div className="col-md-3" key={item}>
-                <div className="card text-center shadow-sm">
-                  <div className="card-body">
-                    <h6 className="text-muted text-capitalize">{item}</h6>
-                    <h4>{latest} {item === 'weight' ? 'kg' : 'cm'}</h4>
-                    {change && (
-                      <small className={change.isPositive ? 'text-success' : 'text-danger'}>
-                        {change.isPositive ? `+${change.percent}% ↑` : `${change.percent}% ↓`}
-                      </small>
-                    )}
-                  </div>
+
+            content = (
+              <>
+                <h6 className="text-muted text-capitalize">{item}</h6>
+                <h4>{latest} {item === 'weight' ? 'kg' : 'cm'}</h4>
+                {change && (
+                  <small className={change.isPositive ? 'text-success' : 'text-danger'}>
+                    {change.isPositive ? `+${change.percent}% ↑` : `${change.percent}% ↓`}
+                  </small>
+                )}
+              </>
+            );
+          }
+
+          return (
+            <div className="col-md-3" key={item}>
+              <div className="card text-center shadow-sm">
+                <div className="card-body">
+                  {content}
                 </div>
               </div>
-            );
-          })}
+            </div>
+          );
+        })}
       </div>
     </div>
 

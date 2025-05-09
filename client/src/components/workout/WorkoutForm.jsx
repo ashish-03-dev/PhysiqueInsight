@@ -5,7 +5,7 @@ import { useOutletContext } from 'react-router-dom';
 
 const useLayoutContext = () => useOutletContext();
 
-export default function WorkoutForm({setWeeklyWorkoutPlan}) {
+export default function WorkoutForm({ setWeeklyWorkoutPlan, setShowForm }) {
   const { triggerToast } = useLayoutContext();
 
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -63,6 +63,7 @@ export default function WorkoutForm({setWeeklyWorkoutPlan}) {
       if (res.data.success) {
         triggerToast('Workout plan submitted!');
         setWeeklyPlan(initialPlan); // Reset the form
+        setShowForm(false);
         setWeeklyWorkoutPlan(res.data.plan); // Update the parent component with the new plan
       } else {
         triggerToast('Submission failed.');
@@ -75,8 +76,53 @@ export default function WorkoutForm({setWeeklyWorkoutPlan}) {
 
 
   return (
-    <div className="card p-4 shadow-sm animate__animated animate__fadeIn">
+    <div className="card p-4 shadow-sm animate__animated animate__fadeIn mb-4">
       <h5 className="mb-4">Create Weekly Workout Plan</h5>
+      <button
+        type="button"
+        className="btn btn-sm btn-secondary mb-3"
+        onClick={() => {
+          setWeeklyPlan({
+            Monday: [
+              { name: 'Bench Press', sets: 4, reps: 10 },
+              { name: 'Incline Dumbbell Press', sets: 3, reps: 12 },
+              { name: 'Push-ups', sets: 3, reps: 20 },
+            ],
+            Tuesday: [
+              { name: 'Deadlifts', sets: 4, reps: 8 },
+              { name: 'Pull-ups', sets: 3, reps: 10 },
+              { name: 'Barbell Row', sets: 3, reps: 12 },
+            ],
+            Wednesday: [
+              { name: 'Squats', sets: 4, reps: 10 },
+              { name: 'Lunges', sets: 3, reps: 12 },
+              { name: 'Leg Press', sets: 3, reps: 10 },
+            ],
+            Thursday: [
+              { name: 'Shoulder Press', sets: 3, reps: 10 },
+              { name: 'Lateral Raises', sets: 3, reps: 15 },
+              { name: 'Face Pulls', sets: 3, reps: 12 },
+            ],
+            Friday: [
+              { name: 'Plank', sets: 3, reps: 60 },
+              { name: 'Russian Twists', sets: 3, reps: 20 },
+              { name: 'Leg Raises', sets: 3, reps: 15 },
+            ],
+            Saturday: [
+              { name: 'HIIT Cardio', sets: 1, reps: 20 },
+              { name: 'Jump Rope', sets: 3, reps: 100 },
+              { name: 'Burpees', sets: 3, reps: 15 },
+            ],
+            Sunday: [
+              { name: 'Active Recovery Walk', sets: 1, reps: 45 },
+              { name: 'Stretching Routine', sets: 1, reps: 20 },
+            ],
+          });
+        }}
+
+      >
+        ⚡ Auto Fill Sample Plan
+      </button>
       <form onSubmit={handlePlanSubmit}>
         {daysOfWeek.map((day) => (
           <div key={day} className="mb-4">

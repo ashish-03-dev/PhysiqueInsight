@@ -6,7 +6,7 @@ import Layout from './Layout';
 import Dashboard from './components/Dashboard';
 import SubmitMeasurement from './pages/Measurement';
 import Progress from './pages/Progress';
-import WorkoutPage from './pages/WorkoutPlan';
+import WorkoutPage from './pages/Workout';
 import Profile from './pages/Profile';
 import SettingsPage from './pages/SettingsPage';
 

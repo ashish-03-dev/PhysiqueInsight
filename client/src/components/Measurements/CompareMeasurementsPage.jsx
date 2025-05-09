@@ -58,7 +58,7 @@ export default function CompareMeasurementsPage({ measurements, loading }) {
 
   return (
     <div className="container py-4">
-      <h3>Compare Measurements</h3>
+      <h3 className='mb-4' >Compare Measurements</h3>
       <div className="row mb-4">
         <div className="col-md-6">
           <label>Select First Measurement</label>

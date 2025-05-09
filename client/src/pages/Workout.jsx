@@ -12,7 +12,6 @@ const Workoutplan = ({ measurementId, token }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
     fetchWeeklyWorkout();
   }, []);
 
@@ -32,12 +31,8 @@ const Workoutplan = ({ measurementId, token }) => {
   };
 
 
-  if (loading) return <p>Loading...</p>;
-
   return (
-
     <div className="container mt-4">
-
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="mb-0">Workout Plan</h2>
         <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}>
@@ -45,13 +40,21 @@ const Workoutplan = ({ measurementId, token }) => {
         </button>
       </div>
 
-      {showForm && <WorkoutForm setWeeklyWorkoutPlan={setWeeklyWorkoutPlan}/>}
+      {showForm && <WorkoutForm setWeeklyWorkoutPlan={setWeeklyWorkoutPlan} setShowForm={setShowForm}/>}
 
-      <WeeklyWorkoutPlan weeklyWorkoutPlan={weeklyWorkoutPlan} />
+      {loading ? (
+        <div className="text-center text-muted mb-4">Loading workout plans...</div>
+      ) : !showForm && weeklyWorkoutPlan.length === 0 ? (
+        <div className="text-center text-muted mb-4">No available workout plans.</div>
+      ) : (
+        <>
+          <WeeklyWorkoutPlan weeklyWorkoutPlan={weeklyWorkoutPlan} />
+        </>
+      )}
 
       <WeeklyWorkoutTable weeklyWorkoutPlan={weeklyWorkoutPlan} />
-
     </div>
+
   );
 };
 

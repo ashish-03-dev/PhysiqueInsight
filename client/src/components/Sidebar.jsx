@@ -55,13 +55,13 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
         }}
       >
 
-        <div className="d-none d-md-flex p-2">
+        <div className="d-none d-md-flex p-3">
           <button className="btn btn-outline-secondary" onClick={toggleSidebar}>
             <i className="fas fa-bars"></i>
           </button>
         </div>
 
-        <ul className="nav nav-pills flex-column mt-4 mb-auto">
+        <ul className="nav nav-pills flex-column mb-auto">
           {menuItems.map((item, index) => (
             <li className="nav-item mb-2" key={index}>
               <Link
