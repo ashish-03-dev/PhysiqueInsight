@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import API from '../../utils/api';
+import { useOutletContext } from 'react-router-dom';
 
-export default function AddMeasurementForm({ setShowForm, triggerToast }) {
+const useLayoutContext = () => useOutletContext();
+
+export default function AddMeasurementForm({ setShowForm, fetchMeasurements }) {
+  const { triggerToast } = useLayoutContext();
+
   const [formData, setFormData] = useState({
     height: "",
     shoulderWidth: "",
@@ -43,7 +48,7 @@ export default function AddMeasurementForm({ setShowForm, triggerToast }) {
       console.log(res.data);
       triggerToast('Measurement Saved!');
 
-      // setShowForm(false);
+      setShowForm(false);
       setFormData({
         height: "",
         shoulderWidth: "",
@@ -64,12 +69,11 @@ export default function AddMeasurementForm({ setShowForm, triggerToast }) {
         armSpan: ""
       });
       window.location.reload();
-      // fetchMeasurements(); once the form is submitted, you can call this function to refresh the data
-      toast.success('Measurement Saved!', { autoClose: 3000 });
-      // showToast('Workout Plan Saved!'); // use this to show a success message
+      fetchMeasurements();
+      triggerToast('Measurement Saved!');
     } catch (error) {
       console.error(error);
-      // showToast('Failed to save plan');
+      triggerToast('Failed to save plan');
     } finally {
       setLoading(false);
     }

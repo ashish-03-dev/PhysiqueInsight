@@ -5,7 +5,6 @@ import WorkoutForm from '../components/workout/WorkoutForm';
 import WeeklyWorkoutPlan from '../components/workout/WeeklyWorkoutPlan';
 import API from '../utils/api';
 
-
 const Workoutplan = ({ measurementId, token }) => {
 
   const [weeklyWorkoutPlan, setWeeklyWorkoutPlan] = useState([]);

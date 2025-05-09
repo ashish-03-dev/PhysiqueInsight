@@ -4,25 +4,25 @@ import MeasurementTable from '../components/Measurements/MeasurementTable';
 import CompareMeasurementsPage from '../components/Measurements/CompareMeasurementsPage';
 import API from '../utils/api';
 
+const Measurement = () => {
 
-const Measurement = ({ triggerToast }) => {
   const [showForm, setShowForm] = useState(false);
   const [measurements, setMeasurements] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchMeasurements = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const res = await API.get('/measurements');
-        setMeasurements(res.data);
-      } catch (err) {
-        console.error('Error fetching measurements:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchMeasurements = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await API.get('/measurements');
+      setMeasurements(res.data);
+    } catch (err) {
+      console.error('Error fetching measurements:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchMeasurements();
   }, []);
 
@@ -38,11 +38,9 @@ const Measurement = ({ triggerToast }) => {
         </button>
       </div>
 
-      {showForm && <AddMeasurementForm triggerToast={triggerToast} setShowForm={setShowForm} />}
+      {showForm && <AddMeasurementForm setShowForm={setShowForm} fetchMeasurements={fetchMeasurements} />}
 
       <hr />
-      
-   
 
       <MeasurementTable measurements={measurements} loading={loading} />
       <hr />

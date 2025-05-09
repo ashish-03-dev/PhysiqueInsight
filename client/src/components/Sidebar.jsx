@@ -24,7 +24,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   const menuItems = [
     { path: 'dashboard', label: 'Dashboard', icon: 'fas fa-home' },
     { path: 'measurements', label: 'Measurements', icon: 'fas fa-ruler' },
-    { path: 'progress', label: 'Progress', icon: 'fas fa-chart-line', badge: 3 },
+    { path: 'progress', label: 'Progress', icon: 'fas fa-chart-line' },
     { path: 'workout-page', label: 'Workout', icon: 'fas fa-dumbbell' },
     { path: 'profile', label: 'Profile', icon: 'fas fa-user' },
     { path: 'settings', label: 'Settings', icon: 'fas fa-cog' },
@@ -47,9 +47,8 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
     ${sidebarOpen ? 'd-flex' : 'd-none'} d-md-flex`} style={{
           width: sidebarOpen ? '250px' : '100px',
           transition: 'all 0.3s ease',
-          // height: 'calc(100svh - 60px)',
           position: 'fixed',
-          top: '60px', // assuming navbar height
+          top: '60px',
           bottom: '0px',
           left: window.innerWidth < 768 ? (sidebarOpen ? '0' : '-250px') : '0', // <-- This is key
           zIndex: 1010,
@@ -72,27 +71,27 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
                   <i className={`bi ${item.icon} p-2 fs-5`}></i>
                   {sidebarOpen && item.label}
                 </div>
-                {sidebarOpen && item.badge && (
-                  <span className="badge bg-danger rounded-pill">{item.badge}</span>
-                )}
 
               </Link>
             </li>
           ))}
         </ul>
         <hr />
-        <div className="mt-auto">
-          <button
-            onClick={handleLogout}
-            className="btn btn-danger w-100 d-flex align-items-center justify-content-center"
-            disabled={loggingOut}
-          >
-            <i className="fas fa-sign-out-alt me-2"></i>
-            {loggingOut
-              ? 'Logging out...'
-              : sidebarOpen && 'Logout'}
-          </button>
-        </div>
+
+        {sidebarOpen &&
+          <div className="mt-auto">
+            <button
+              onClick={handleLogout}
+              className="btn btn-danger w-100 d-flex align-items-center justify-content-center"
+              disabled={loggingOut}
+            >
+              <i className="fas fa-sign-out-alt me-2"></i>
+              {loggingOut
+                ? 'Logging out...'
+                : sidebarOpen && 'Logout'}
+            </button>
+          </div>}
+
       </div>
     </>
   );

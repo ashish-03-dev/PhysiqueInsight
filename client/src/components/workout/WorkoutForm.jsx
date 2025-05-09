@@ -1,8 +1,13 @@
 // src/components/WorkoutForm.jsx
 import React, { useState } from 'react';
 import API from '../../utils/api'; // your axios setup
+import { useOutletContext } from 'react-router-dom';
+
+const useLayoutContext = () => useOutletContext();
 
 export default function WorkoutForm({setWeeklyWorkoutPlan}) {
+  const { triggerToast } = useLayoutContext();
+
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   const initialPlan = {
@@ -56,15 +61,15 @@ export default function WorkoutForm({setWeeklyWorkoutPlan}) {
       });
 
       if (res.data.success) {
-        alert('Workout plan submitted!');
+        triggerToast('Workout plan submitted!');
         setWeeklyPlan(initialPlan); // Reset the form
         setWeeklyWorkoutPlan(res.data.plan); // Update the parent component with the new plan
       } else {
-        alert('Submission failed.');
+        triggerToast('Submission failed.');
       }
     } catch (err) {
       console.error('Failed to save plan', err);
-      alert('Server error.');
+      triggerToast('Server error.');
     }
   };
 

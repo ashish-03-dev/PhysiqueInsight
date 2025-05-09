@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import { Outlet } from 'react-router-dom';
 import ToastNotification from './components/ToastNotification';
+
 
 const Layout = () => {
   const [username, setUsername] = useState('');
@@ -19,10 +20,12 @@ const Layout = () => {
   };
 
   return (
-    <>
       <div className="d-flex flex-column">
+
         <Navbar username={username} toggleSidebar={toggleSidebar} />
+
         <div className="d-flex flex-grow-1 " style={{ overflowY: 'auto' }}>
+
           <Sidebar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
           <div
@@ -32,14 +35,13 @@ const Layout = () => {
             }}
           >
 
-            <Outlet triggerToast={triggerToast} setUsername={setUsername} />
+            <Outlet context={{triggerToast, setUsername}}/>
 
             {showToast && <ToastNotification message={toastMessage} />}
             
           </div>
         </div>
       </div>
-    </>
   );
 };
 

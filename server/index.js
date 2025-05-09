@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const app = express();
 require('dotenv').config();
 
-const FRONTEND_URL = process.env.REACT_APP_FRONTEND_URL;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 const PORT = process.env.PORT || 4000;
 const MONGO_URI = process.env.MONGO_URI;
 

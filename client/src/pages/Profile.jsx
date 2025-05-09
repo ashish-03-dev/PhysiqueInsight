@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import API from '../utils/api';
+import { useOutletContext } from 'react-router-dom';
+
+const useLayoutContext = () => useOutletContext();
 
 const ProfileInfoPage = () => {
+  const { triggerToast } = useLayoutContext();
+
   const [user, setUser] = useState({
     name: '',
     email: '',
@@ -13,13 +18,18 @@ const ProfileInfoPage = () => {
   });
 
   const [editMode, setEditMode] = useState(false);
-
+  const [loading, setLoading] = useState(true); // Loading state
+  const [saving, setSaving] = useState(false);
   const fetchUserProfile = async () => {
+
     try {
       const res = await API.get('/profile');
       setUser(res.data);
     } catch (error) {
       console.error('Failed to fetch profile:', error);
+      triggerToast('error fetching profile');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,17 +39,23 @@ const ProfileInfoPage = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
+    const previousUser = { ...user };
+
     try {
-      const token = localStorage.getItem('token');
-      const res = await API.put('/profile', user, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      setSaving(true);
+      const { name, age, gender, height, weight, goal } = user;
+      const updatedData = { name, age, gender, height, weight, goal };
+
+      const res = await API.put('/profile', updatedData);
       setUser(res.data);
-      // alert('Profile updated successfully');
+      triggerToast('Profile updated successfully');
       setEditMode(false);
     } catch (err) {
+      setUser(previousUser);
       console.error('Update failed:', err);
-      alert('Error updating profile');
+      triggerToast('Error updating profile');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -59,13 +75,24 @@ const ProfileInfoPage = () => {
   ];
 
 
+  if (loading) {
+    return (
+      <div className="container py-4 text-center">
+        <h3>Loading Profile...</h3>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container py-4">
       <h3>Profile Information</h3>
       <div className="card p-4 mb-4">
         {editMode ? (
           <form onSubmit={handleSave} className="row g-3">
-            {fields.map(({ name, label, type, col, required, placeholder, options, disabled}) => (
+            {fields.map(({ name, label, type, col, required, placeholder, options, disabled }) => (
               <div key={name} className={col}>
                 <label className="form-label">{label}</label>
                 {type === 'select' ? (
@@ -97,9 +124,23 @@ const ProfileInfoPage = () => {
             ))}
 
             <div className="col-12">
-              <button type="submit" className="btn btn-primary me-2">Save Changes</button>
-              <button type="button" className="btn btn-secondary" onClick={() => setEditMode(false)}>❌ Cancel</button>
+              <button
+                type="submit"
+                className="btn btn-primary me-2"
+                disabled={loading}
+              >
+                {saving ? 'Saving...' : 'Save Changes'}
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setEditMode(false)}
+                disabled={saving}
+              >
+                ❌ Cancel
+              </button>
             </div>
+
           </form>
         ) : (
           <>

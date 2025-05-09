@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import API from '../utils/api';
+import { useOutletContext } from 'react-router-dom';
+
+const useLayoutContext = () => useOutletContext();
 
 const SettingsPage = () => {
+
+  const { triggerToast } = useLayoutContext();
+
   const [email, setEmail] = useState('');
   const [passwords, setPasswords] = useState({ current: '', new: '' });
 
@@ -17,41 +23,37 @@ const SettingsPage = () => {
         { email },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert('Email updated successfully');
+      triggerToast('Email updated successfully');
       setShowEmailForm(false);
+      setEmail('');
     } catch (err) {
       console.error(err);
-      alert('Failed to update email');
+      triggerToast('Failed to update email');
     }
   };
 
   const handlePasswordChange = async () => {
     try {
-      await API.put(
-        '/settings/password',
-        passwords,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      alert('Password updated successfully');
+      await API.put('/settings/password', passwords);
+      triggerToast('Password updated successfully');
       setShowPasswordForm(false);
+      setPasswords({ current: '', new: '' });
     } catch (err) {
       console.error(err);
-      alert('Failed to update password');
+      triggerToast('Failed to update password');
     }
   };
 
   const handleDeleteAccount = async () => {
     if (!window.confirm('Are you sure you want to delete your account?')) return;
     try {
-      await API.delete('/settings/delete', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.delete('/settings/delete');
       localStorage.clear();
-      alert('Account deleted.');
+      triggerToast('Account deleted.');
       window.location.href = '/signup';
     } catch (err) {
       console.error(err);
-      alert('Failed to delete account');
+      triggerToast('Failed to delete account');
     }
   };
 
@@ -60,36 +62,45 @@ const SettingsPage = () => {
       <h3>Settings ⚙️</h3>
 
       <div className="card p-4 mb-4">
-        <h5>Account Settings</h5>
+        <h5 className='mb-4'>Account Settings</h5>
 
-        <button
-          className="btn btn-outline-primary mb-2"
-          onClick={() => setShowEmailForm(!showEmailForm)}
-        >
-          {showEmailForm ? 'Cancel Email Update' : 'Change Email'}
-        </button>
+        {!showEmailForm && (
+          <button
+            className="btn btn-outline-primary mb-2"
+            onClick={() => setShowEmailForm(true)}
+          >
+            Change Email
+          </button>
+        )}
 
         {showEmailForm && (
           <div className="mb-3">
             <input
               type="email"
-              className="form-control"
+              className="form-control mb-2"
               placeholder="New email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <button onClick={handleEmailChange} className="btn btn-success mt-2">
-              Update Email
-            </button>
+            <div className="d-flex gap-2">
+              <button onClick={handleEmailChange} className="btn btn-success">
+                Update Email
+              </button>
+              <button onClick={() => setShowEmailForm(false)} className="btn btn-secondary">
+                Cancel
+              </button>
+            </div>
           </div>
         )}
 
-        <button
-          className="btn btn-outline-primary mb-2"
-          onClick={() => setShowPasswordForm(!showPasswordForm)}
-        >
-          {showPasswordForm ? 'Cancel Password Update' : 'Change Password'}
-        </button>
+        {!showPasswordForm && (
+          <button
+            className="btn btn-outline-primary mb-2"
+            onClick={() => setShowPasswordForm(true)}
+          >
+            Change Password
+          </button>
+        )}
 
         {showPasswordForm && (
           <div className="mb-3">
@@ -104,22 +115,27 @@ const SettingsPage = () => {
             />
             <input
               type="password"
-              className="form-control"
+              className="form-control mb-2"
               placeholder="New password"
               value={passwords.new}
               onChange={(e) =>
                 setPasswords({ ...passwords, new: e.target.value })
               }
             />
-            <button onClick={handlePasswordChange} className="btn btn-success mt-2">
-              Update Password
-            </button>
+            <div className="d-flex gap-2">
+              <button onClick={handlePasswordChange} className="btn btn-success">
+                Update Password
+              </button>
+              <button onClick={() => setShowPasswordForm(false)} className="btn btn-secondary">
+                Cancel
+              </button>
+            </div>
           </div>
         )}
       </div>
 
       <div className="card p-4 text-danger">
-        <h5>Danger Zone</h5>
+        <h5 className='mb-3'>Danger Zone</h5>
         <button className="btn btn-danger" onClick={handleDeleteAccount}>
           Delete Account
         </button>
