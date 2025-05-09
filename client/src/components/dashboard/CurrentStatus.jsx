@@ -2,20 +2,7 @@ import React, { useEffect, useState } from 'react';
 import API from '../../utils/api'; // Adjust the import path as necessary
 
 const MeasurementSummary = () => {
-  const [data, setData] = useState({
-    "latest": {
-      "weight": 72,
-      "chest": 98,
-      "waist": 76,
-      "arms": 34
-    },
-    "oneMonthAgo": {
-      "weight": 71.1,
-      "chest": 97.2,
-      "waist": 76.4,
-      "arms": 33.6
-    }
-  });
+  const [data, setData] = useState();
 
   const [loading, setLoading] = useState(true);
 

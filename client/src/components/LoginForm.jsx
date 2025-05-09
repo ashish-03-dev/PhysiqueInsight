@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import API from '../utils/api';
+
+
 const LoginForm = ({ onSwitchForm }) => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
@@ -28,8 +30,14 @@ const LoginForm = ({ onSwitchForm }) => {
             }
         } catch (err) {
             console.log(err);
-            setError('Something went wrong: ' + err.message);
+            const message =
+                err.response && err.response.data && err.response.data.error
+                    ? err.response.data.error
+                    : 'Something went wrong: ' + err.message;
+
+            setError(message);
         }
+
         setLoading(false);
     };
 
@@ -57,8 +65,11 @@ const LoginForm = ({ onSwitchForm }) => {
                 {error && <p>{error}</p>}
                 <p>
                     Don't have an account?{" "}
-                    <button onClick={onSwitchForm} className="btn btn-link p-0">
-                        <strong>Sign up</strong>
+                    <button
+                        onClick={onSwitchForm}
+                        className="btn btn-link p-0 fw-semibold"
+                    >
+                        Sign up
                     </button>
                 </p>
             </div>

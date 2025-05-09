@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-const apiURL = process.env.REACT_APP_API_URL || "http://192.168.0.102:4000/api";
-
+const API_URL = process.env.REACT_APP_API_URL;
 const API = axios.create({
-  baseURL: apiURL,
+  baseURL: API_URL,
 });
 
 API.interceptors.request.use(
