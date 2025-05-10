@@ -5,12 +5,12 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   const navigate = useNavigate();
   const [loggingOut, setLoggingOut] = useState(false);
   const location = useLocation();
+
   useEffect(() => {
     if (window.innerWidth < 768) {
-      toggleSidebar(false); // close on mobile by default
+      toggleSidebar(false); // Close on mobile by default when the page loads
     }
-  }, []);
-
+  }, []); // Empty dependency array ensures this runs only once
 
   const handleLogout = () => {
     setLoggingOut(true);
@@ -28,9 +28,13 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
     { path: 'workout-page', label: 'Workout', icon: 'fas fa-dumbbell' },
     { path: 'profile', label: 'Profile', icon: 'fas fa-user' },
     { path: 'settings', label: 'Settings', icon: 'fas fa-cog' },
-
   ];
 
+  const handleMenuClick = () => {
+    if (window.innerWidth < 768) {
+      toggleSidebar(false); // Close the sidebar when clicking on a menu item in mobile view
+    }
+  };
 
   return (
     <>
@@ -38,23 +42,24 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
         <div
           className="d-md-none position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"
           style={{ zIndex: 1009 }}
-          onClick={toggleSidebar}
+          onClick={() => toggleSidebar(false)} // Close sidebar when clicking outside
         />
       )}
 
       <div
         className={`bg-light border-end flex-column p-3 
-    ${sidebarOpen ? 'd-flex' : 'd-none'} d-md-flex`} style={{
+        ${sidebarOpen ? 'd-flex' : 'd-none'} d-md-flex`}
+        style={{
           width: sidebarOpen ? '250px' : '100px',
           transition: 'all 0.3s ease',
           position: 'fixed',
           top: '60px',
           bottom: '0px',
-          left: window.innerWidth < 768 ? (sidebarOpen ? '0' : '-250px') : '0', // <-- This is key
+          left: window.innerWidth < 768 ? (sidebarOpen ? '0' : '-250px') : '0', // Sidebar position adjustment for mobile
           zIndex: 1010,
+          overflow: 'hidden',
         }}
       >
-
         <div className="d-none d-md-flex p-3">
           <button className="btn btn-outline-secondary" onClick={toggleSidebar}>
             <i className="fas fa-bars"></i>
@@ -66,12 +71,13 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
             <li className="nav-item mb-2" key={index}>
               <Link
                 to={item.path}
-                className={`nav-link d-flex align-items-center ${location.pathname.includes(item.path) ? '' : 'link-dark'}`} >
+                className={`nav-link d-flex align-items-center ${location.pathname.includes(item.path) ? '' : 'link-dark'}`}
+                onClick={handleMenuClick} // Close sidebar on menu item click
+              >
                 <div className="d-flex gap-1 flex-grow-1 align-items-center">
                   <i className={`bi ${item.icon} p-2 fs-5`}></i>
                   {sidebarOpen && item.label}
                 </div>
-
               </Link>
             </li>
           ))}
@@ -91,7 +97,6 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
                 : sidebarOpen && 'Logout'}
             </button>
           </div>}
-
       </div>
     </>
   );

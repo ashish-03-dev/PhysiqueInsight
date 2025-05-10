@@ -57,9 +57,14 @@ const AnalysisSection = () => {
                     return (
                       <tr key={key}>
                         <td className="text-capitalize">{key.replace(/([A-Z])/g, ' $1')}</td>
-                        <td>{Number(actual).toFixed(2)}</td>
-                        <td>{ideal ? Number(ideal).toFixed(2) : '—'}</td>
+                        <td>
+                          {Number(actual).toFixed(2)}{key.toLowerCase().includes('imbalance') ? ' cm' : ''}
+                        </td>
+                        <td>
+                          {ideal ? Number(ideal).toFixed(2) + (key.toLowerCase().includes('imbalance') ? ' cm' : '') : '—'}
+                        </td>
                       </tr>
+
                     );
                   })}
                 </tbody>

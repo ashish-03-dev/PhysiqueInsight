@@ -8,6 +8,10 @@ export default function WeeklyWorkoutPlan({weeklyWorkoutPlan}) {
 
   return (
     <div className='row g-4'>
+       <hr className="my-4" />
+          <div className="d-flex justify-content-between align-items-center mb-3">
+              <h4 className="mb-0">📅 Full Weekly Workout Plan</h4>
+          </div>
       {weeklyWorkoutPlan.map((dayPlan, index) => (
         <div className="col-12 col-md-6 col-lg-4" key={index} >
           <div className="card h-100">

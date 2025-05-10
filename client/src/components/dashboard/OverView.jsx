@@ -10,26 +10,26 @@ const OverView = () => {
     const [motivation, setMotivation] = useState("Your Journey Starts Here!");
 
     useEffect(() => {
-        const fetchOverview = async () => {
-            try {
-                const response = await API.get('/user/overview');
-                const data = response.data;
-                if (data) {
-                    setUserName(data.name);
-                    setStreak(data.workoutStreak);
-                    setWeight(data.weight);
-                    setLastWorkoutDate(data.lastWorkoutDate);
-                    // setMotivation(data.motivation);
-                } else {
-                    console.error(response.message);
-                }
-            } catch (err) {
-                console.error('Failed to fetch user stats', err);
-            }
-        };
-
         fetchOverview();
     }, []);
+
+    const fetchOverview = async () => {
+        try {
+            const response = await API.get('/user/overview');
+            const data = response.data;
+            if (data) {
+                setUserName(data.name);
+                setStreak(data.workoutStreak);
+                setWeight(data.weight);
+                setLastWorkoutDate(data.lastWorkoutDate);
+                // setMotivation(data.motivation);
+            } else {
+                console.error(response.message);
+            }
+        } catch (err) {
+            console.error('Failed to fetch user stats', err);
+        }
+    };
 
     return (
         <div className='mb-4'>
@@ -66,7 +66,7 @@ const OverView = () => {
                 </div>
 
                 <div className="col-12 col-md-6 col-lg-8">
-                    <TodayWorkoutCard />
+                    <TodayWorkoutCard fetchOverview={fetchOverview}/>
                 </div>
 
             </div>

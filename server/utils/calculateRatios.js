@@ -18,7 +18,7 @@ function calculateRatios(measurements) {
   } = measurements;
 
   return {
-    shoulderToWaistRatio: (shoulderWidth / waistCircumference).toFixed(2),
+    shoulderToWaistRatio: ((shoulderWidth * 2) / waistCircumference).toFixed(2),
     chestToWaistRatio: (chestCircumference / waistCircumference).toFixed(2),
     armSpanToHeightRatio: (armSpan / height).toFixed(2),
     upperBodyProportion: (torsoLength / height).toFixed(2),

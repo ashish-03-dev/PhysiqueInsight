@@ -1,6 +1,5 @@
 // WorkoutSuggestions.js
 import React, { useEffect, useState } from 'react';
-import WeeklyWorkoutTable from '../components/workout/WeeklyWorkoutTable';
 import WorkoutForm from '../components/workout/WorkoutForm';
 import WeeklyWorkoutPlan from '../components/workout/WeeklyWorkoutPlan';
 import API from '../utils/api';
@@ -52,7 +51,6 @@ const Workoutplan = ({ measurementId, token }) => {
         </>
       )}
 
-      <WeeklyWorkoutTable weeklyWorkoutPlan={weeklyWorkoutPlan} />
     </div>
 
   );

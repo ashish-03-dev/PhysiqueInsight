@@ -128,7 +128,7 @@ const ProfileInfoPage = () => {
               <button
                 type="submit"
                 className="btn btn-primary me-2"
-                disabled={loading}
+                disabled={saving}
               >
                 {saving ? 'Saving...' : 'Save Changes'}
               </button>

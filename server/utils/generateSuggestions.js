@@ -8,14 +8,15 @@ exports.generateSuggestions = (ratios, measurements) => {
     armSpanToHeightRatio,
     upperBodyProportion,
     lowerBodyProportion,
-    bicepImbalance,
-    forearmImbalance,
-    thighImbalance,
     calfThighRatioLeft,
     calfThighRatioRight
   } = ratios;
 
   const {
+    bicepCircumferenceLeft,
+    bicepCircumferenceRight,
+    forearmCircumferenceLeft,
+    forearmCircumferenceRight,
     thighCircumferenceLeft,
     thighCircumferenceRight
   } = measurements;
@@ -57,13 +58,17 @@ exports.generateSuggestions = (ratios, measurements) => {
   }
 
   // Bicep imbalance
-  if (bicepImbalance > 1.5) {
-    suggestions.push("Fix bicep imbalance with single-arm curls and tricep extensions.");
+  const bicepImbalanceValue = Math.abs(bicepCircumferenceLeft - bicepCircumferenceRight);
+  if (bicepImbalanceValue > 1.5) {
+    const weakerSide = bicepCircumferenceLeft < bicepCircumferenceRight ? "Left" : "Right";
+    suggestions.push(`Bicep imbalance detected. Focus on strengthening the ${weakerSide} bicep with single-arm curls and tricep extensions.`);
   }
 
   // Forearm imbalance
-  if (forearmImbalance > 1.5) {
-    suggestions.push("Fix forearm imbalance with wrist curls and reverse curls.");
+  const forearmImbalanceValue = Math.abs(forearmCircumferenceLeft - forearmCircumferenceRight);
+  if (forearmImbalanceValue > 1.5) {
+    const weakerSide = forearmCircumferenceLeft < forearmCircumferenceRight ? "Left" : "Right";
+    suggestions.push(`Forearm imbalance detected. Focus on strengthening the ${weakerSide} forearm with wrist curls and reverse curls.`);
   }
 
   // Thigh imbalance
@@ -86,4 +91,4 @@ exports.generateSuggestions = (ratios, measurements) => {
   }
 
   return { focusAreas, suggestions, idealRatios };
-}
+};

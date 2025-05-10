@@ -1,8 +1,13 @@
 // src/components/TodayWorkoutCard.jsx
 import React, { useState, useEffect } from 'react';
 import API from '../../utils/api'; // Adjust the import based on your project structure
+import { useOutletContext } from 'react-router-dom';
 
-export default function TodayWorkoutCard() {
+const useLayoutContext = () => useOutletContext();
+
+export default function TodayWorkoutCard({fetchOverview}) {
+  const { triggerToast } = useLayoutContext();
+
   const [todayWorkout, setTodayWorkout] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -28,20 +33,21 @@ export default function TodayWorkoutCard() {
       const data = response.data;
 
       if (response.status === 201) {
-        alert(`🎉 Workout marked complete! Current streak: ${data.streak} days`);
+        triggerToast(`🎉 Workout marked complete! Current streak: ${data.streak} days`);
+        fetchOverview();
       }
     } catch (error) {
       if (error.response) {
         const { status, data } = error.response;
 
         if (status === 400) {
-          alert(`⚠️ ${data.message}`);
+          triggerToast(`⚠️ ${data.message}`);
         } else {
-          alert(`❌ Error: ${data.message || 'Something went wrong'}`);
+          triggerToast(`❌ Error: ${data.message || 'Something went wrong'}`);
         }
       } else {
         console.error(error);
-        alert('🚫 Network or server issue. Please try again.');
+        triggerToast('🚫 Network or server issue. Please try again.');
       }
     }
   };

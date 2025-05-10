@@ -42,25 +42,25 @@ export default function AddMeasurementForm({ setShowForm, fetchMeasurements }) {
   const autoFillForm = () => {
     setFormData({
       height: 175,
-      shoulderWidth: 45,
-      chestWidth: 40,
-      chestCircumference: 95,
-      waistCircumference: 80,
-      hipWidth: 38,
+      shoulderWidth: 48,              // increased
+      chestWidth: 42,
+      chestCircumference: 96,
+      waistCircumference: 80,         // reduced slightly
+      hipWidth: 39,
       bicepCircumferenceLeft: 32,
       bicepCircumferenceRight: 33,
       forearmCircumferenceLeft: 28,
       forearmCircumferenceRight: 28,
-      thighCircumferenceLeft: 55,
-      thighCircumferenceRight: 56,
+      thighCircumferenceLeft: 56,
+      thighCircumferenceRight: 55,
       calfCircumferenceLeft: 37,
       calfCircumferenceRight: 36,
-      torsoLength: 60,
-      legLength: 90,
-      armSpan: 180,
+      torsoLength: 68,
+      legLength: 87,
+      armSpan: 176
     });
   };
-
+  
 
 
   const handleSubmit = async (e) => {

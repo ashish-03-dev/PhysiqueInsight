@@ -9,26 +9,22 @@ const SettingsPage = () => {
   const { triggerToast } = useLayoutContext();
 
   const [email, setEmail] = useState('');
-  const [passwords, setPasswords] = useState({ current: '', new: '' });
+  const [passwords, setPasswords] = useState({ currentPassword: '', newPassword: '' });
 
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
 
-  const token = localStorage.getItem('token');
-
   const handleEmailChange = async () => {
     try {
-      await API.put(
-        '/settings/email',
-        { email },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await API.put('/settings/email', { email },);
       triggerToast('Email updated successfully');
       setShowEmailForm(false);
       setEmail('');
     } catch (err) {
       console.error(err);
-      triggerToast('Failed to update email');
+      const errorMessage =
+        err.response?.data?.message || 'Failed to update email';
+      triggerToast(errorMessage);
     }
   };
 
@@ -37,12 +33,15 @@ const SettingsPage = () => {
       await API.put('/settings/password', passwords);
       triggerToast('Password updated successfully');
       setShowPasswordForm(false);
-      setPasswords({ current: '', new: '' });
+      setPasswords({ currentPassword: '', newPassword: '' });
     } catch (err) {
       console.error(err);
-      triggerToast('Failed to update password');
+      const errorMessage =
+        err.response?.data?.message || 'Failed to update password';
+      triggerToast(errorMessage);
     }
   };
+  
 
   const handleDeleteAccount = async () => {
     if (!window.confirm('Are you sure you want to delete your account?')) return;
@@ -50,7 +49,10 @@ const SettingsPage = () => {
       await API.delete('/settings/delete');
       localStorage.clear();
       triggerToast('Account deleted.');
-      window.location.href = '/signup';
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1000);
+
     } catch (err) {
       console.error(err);
       triggerToast('Failed to delete account');
@@ -108,18 +110,18 @@ const SettingsPage = () => {
               type="password"
               className="form-control mb-2"
               placeholder="Current password"
-              value={passwords.current}
+              value={passwords.currentPassword}
               onChange={(e) =>
-                setPasswords({ ...passwords, current: e.target.value })
+                setPasswords({ ...passwords, currentPassword: e.target.value })
               }
             />
             <input
               type="password"
               className="form-control mb-2"
               placeholder="New password"
-              value={passwords.new}
+              value={passwords.newPassword}
               onChange={(e) =>
-                setPasswords({ ...passwords, new: e.target.value })
+                setPasswords({ ...passwords, newPassword: e.target.value })
               }
             />
             <div className="d-flex gap-2">
