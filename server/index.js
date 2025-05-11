@@ -15,9 +15,6 @@ app.use(cors({
 app.use(express.json());
 app.use(logReqRes('log.txt'));
 
-
-
-
 mongoose.connect(MONGO_URI)
     .then(() => {
         console.log("Connected to MongoDB Atlas!");

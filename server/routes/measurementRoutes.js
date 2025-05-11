@@ -1,10 +1,7 @@
-// routes/measurementRoutes.js
-
 const express = require('express');
 const router = express.Router();
 const measurementController = require('../controllers/measurementController');
-const authMiddleware = require('../middlewares/auth'); // middleware to protect routes
-const Measurement = require('../models/Measurement'); // Assuming you have a Measurement model
+const authMiddleware = require('../middlewares/auth');
 
 router.post('/', authMiddleware, measurementController.saveMeasurement);
 

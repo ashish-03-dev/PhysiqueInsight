@@ -20,6 +20,7 @@ async function authMiddleware(req, res, next) {
       return res.status(401).json({ message: 'Unauthorized: User not found' });
     }
 
+    console.log("User Authenticated for " + req.originalUrl);
     req.user = user;
     next();
     

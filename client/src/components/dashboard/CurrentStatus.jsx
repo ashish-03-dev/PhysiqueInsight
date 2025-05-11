@@ -61,7 +61,7 @@ const MeasurementSummary = () => {
             content = (
               <>
                 <h6 className="text-muted text-capitalize">{item}</h6>
-                <h4>{latest} {item === 'weight' ? 'kg' : 'cm'}</h4>
+                <h4>{latest} {'cm'}</h4>
                 {change && (
                   <small className={change.isPositive ? 'text-success' : 'text-danger'}>
                     {change.isPositive ? `+${change.percent}% ↑` : `${change.percent}% ↓`}
