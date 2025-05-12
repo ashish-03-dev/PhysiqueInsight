@@ -19,7 +19,7 @@ exports.saveWeeklyWorkout = async (req, res) => {
 
     await newPlan.save();
 
-    console.log(req.method + req.originalUrl + " - Workout Saved");
+    console.log(req.method +  " " + req.originalUrl + " - Workout Saved");
     res.json({ success: true, message: 'Workout plan saved', plan: newPlan.plan });
   } catch (err) {
     console.error('Error saving weekly plan:', err);
@@ -37,7 +37,7 @@ exports.getWeeklyWorkout = async (req, res) => {
       return res.status(404).json({ message: 'No weekly workout plan found for this user.' });
     }
 
-    console.log(req.method + req.originalUrl + " - Workout fetched");
+    console.log(req.method + " " + req.originalUrl + " - Workout fetched");
     res.status(200).json({ plan: weeklyWorkout.plan });
   } catch (error) {
     console.error('Error fetching weekly workout plan:', error);
@@ -58,7 +58,7 @@ exports.getTodaysWorkout = async (req, res) => {
 
     const todayWorkout = weeklyWorkout.plan.find(d => d.day === today);
     if (todayWorkout) {
-      console.log(req.method + req.originalUrl + " - Today's Workout fetched");
+      console.log(req.method +  " " + req.originalUrl + " - Today's Workout fetched");
       res.json(todayWorkout);
     } else {
       res.json({ message: 'No workout planned for today' });

@@ -27,7 +27,7 @@ const AuthPage = () => {
   return (
     <div
       className="container-fluid"
-      style={{ height: '100vh', height: '100svh' }} // fallback + safe viewport unit
+      style={{ height: '100svh' }} // fallback + safe viewport unit
     >
 
       <div className="row h-100">
@@ -56,7 +56,7 @@ const AuthPage = () => {
             <p className="umt-4 text-center" style={{ fontSize: '0.9rem' }}>
               {serverReady
                 ? '✅ Server is ready!'
-                : '⏳ Please wait, server is starting...'}
+                : '⏳ Please wait, server is starting... (this can take up to 20 seconds)'}
             </p>
 
           </div>

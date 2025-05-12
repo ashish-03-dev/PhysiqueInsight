@@ -68,7 +68,7 @@ exports.saveMeasurement = async (req, res) => {
 
     await newMeasurement.save();
 
-    console.log("POST " + req.path + " - Measurement Saved");
+    console.log(req.method +  " " + req.path + " - Measurement Saved");
 
     res.status(201).json({
       message: "Measurement saved successfully",
@@ -83,7 +83,7 @@ exports.saveMeasurement = async (req, res) => {
 exports.getAllMeasurements = async (req, res) => {
   try {
     const measurements = await Measurement.find({ user: req.user.id }).sort({ createdAt: -1 });
-    console.log("GET " + req.originalUrl + " - Measurement fetched");
+    console.log(req.method +  " " + req.originalUrl + " - Measurement fetched");
     return res.json(measurements);
   } catch (err) {
     console.error(err.message);
@@ -126,7 +126,7 @@ exports.getMonthlySummary = async (req, res) => {
       response.oneMonthAgo = extractSummary(oneMonthOld);
     }
 
-    console.log("GET " + req.originalUrl + " - Monthly Summary fetched");
+    console.log(req.method +  " " + req.originalUrl + " - Monthly Summary fetched");
     res.json(response);
   } catch (error) {
     console.error('Error fetching measurements:', error);
@@ -158,7 +158,7 @@ exports.getLatestAnalysis = async (req, res) => {
       calfThighRatioRight: 0.6 // Ideal ratio: calves to thighs is often around 0.6
     };
 
-    console.log("GET " + req.originalUrl + " - Latest Analysis fetched");
+    console.log(req.method +  " " + req.originalUrl + " - Latest Analysis fetched");
     res.status(200).json({
       message: "Latest analysis fetched successfully",
       analysis: latestMeasurement.analysis,

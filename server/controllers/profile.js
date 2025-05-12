@@ -9,7 +9,7 @@ const getUserData = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        console.log("GET " + req.originalUrl + " - User data fetched");
+        console.log(req.method +  " " + req.originalUrl + " - User data fetched");
         res.json(user);
     } catch (err) {
         console.error('Error fetching user profile:', err.message);
@@ -35,7 +35,7 @@ const updateUserData = async (req, res) => {
 
         const updatedUser = await user.save();
 
-        console.log(req.method + req.originalUrl + " - User data updated");
+        console.log(req.method +  " " + req.originalUrl + " - User data updated");
         res.json({
             id: updatedUser._id,
             name: updatedUser.name,

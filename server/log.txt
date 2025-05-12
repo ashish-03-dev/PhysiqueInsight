@@ -2598,3 +2598,5 @@ Request: GET /api/measurements/monthly-summary
 Request: GET /api/user/overview
 Request: POST /api/user/workout-complete
 Request: GET /api/user/overview
+Request: GET /api/ping
+Request: POST /api/auth/login

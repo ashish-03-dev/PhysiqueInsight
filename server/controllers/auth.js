@@ -26,7 +26,7 @@ async function handleUserSignup(req, res) {
         expiresIn: '7d',
     });
     
-    console.log("POST " + req.path + " - User Signed up");
+    console.log(req.method +  " " + req.path + " - User Signed up");
     return res.status(201).json({ message: "User created", token });
 }
 
@@ -46,7 +46,7 @@ async function handleUserLogin(req, res) {
         expiresIn: '7d',
     });
 
-    console.log("POST " + req.path + " - User Logged in");
+    console.log(req.method + " " +  req.path + " - User Logged in");
     return res.status(200).json({ token });
 }
 
